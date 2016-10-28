@@ -2,12 +2,13 @@ package com.github.stepanort.worktimetracker.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.github.stepanort.worktimetracker.domain.Worklog;
+import com.github.stepanort.worktimetracker.repository.StatisticsRepository;
 
 import com.github.stepanort.worktimetracker.repository.WorklogRepository;
+import com.github.stepanort.worktimetracker.service.dto.UserProjectWorktimeStatisticDTO;
 import com.github.stepanort.worktimetracker.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,9 @@ public class WorklogResource {
         
     @Inject
     private WorklogRepository worklogRepository;
+    
+    @Inject
+    private StatisticsRepository statisticsRepository;
 
     /**
      * POST  /worklogs : Create a new worklog.
@@ -111,6 +115,14 @@ public class WorklogResource {
                 result,
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+    
+    @RequestMapping(value = "/worklogs/total",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<UserProjectWorktimeStatisticDTO> getAllUserProjectWorktimeStatistics() {
+        return statisticsRepository.getAllUserProjectWorktimeStatistics();
     }
 
     /**
