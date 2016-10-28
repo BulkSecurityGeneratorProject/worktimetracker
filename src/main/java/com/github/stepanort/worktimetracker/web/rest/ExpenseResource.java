@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.github.stepanort.worktimetracker.domain.Expense;
 
 import com.github.stepanort.worktimetracker.repository.ExpenseRepository;
+import com.github.stepanort.worktimetracker.service.dto.UserExpenseStatisticDTO;
 import com.github.stepanort.worktimetracker.web.rest.util.HeaderUtil;
 import com.github.stepanort.worktimetracker.web.rest.util.ExcelUtil;
 import java.io.ByteArrayInputStream;
@@ -23,8 +24,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
 import org.springframework.core.io.InputStreamResource;
+import com.github.stepanort.worktimetracker.repository.StatisticsRepository;
 
 /**
  * REST controller for managing Expense.
@@ -34,20 +35,25 @@ import org.springframework.core.io.InputStreamResource;
 public class ExpenseResource {
 
     private final Logger log = LoggerFactory.getLogger(ExpenseResource.class);
-        
+
     @Inject
     private ExpenseRepository expenseRepository;
+    
+    @Inject
+    private StatisticsRepository statitsticsRepository;
 
     /**
-     * POST  /expenses : Create a new expense.
+     * POST /expenses : Create a new expense.
      *
      * @param expense the expense to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new expense, or with status 400 (Bad Request) if the expense has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new expense, or with status 400 (Bad Request) if the expense has already
+     * an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/expenses",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Expense> createExpense(@Valid @RequestBody Expense expense) throws URISyntaxException {
         log.debug("REST request to save Expense : {}", expense);
@@ -56,22 +62,22 @@ public class ExpenseResource {
         }
         Expense result = expenseRepository.save(expense);
         return ResponseEntity.created(new URI("/api/expenses/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("expense", result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert("expense", result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /expenses : Updates an existing expense.
+     * PUT /expenses : Updates an existing expense.
      *
      * @param expense the expense to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated expense,
-     * or with status 400 (Bad Request) if the expense is not valid,
-     * or with status 500 (Internal Server Error) if the expense couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * expense, or with status 400 (Bad Request) if the expense is not valid, or
+     * with status 500 (Internal Server Error) if the expense couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @RequestMapping(value = "/expenses",
-        method = RequestMethod.PUT,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.PUT,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Expense> updateExpense(@Valid @RequestBody Expense expense) throws URISyntaxException {
         log.debug("REST request to update Expense : {}", expense);
@@ -80,18 +86,19 @@ public class ExpenseResource {
         }
         Expense result = expenseRepository.save(expense);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("expense", expense.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert("expense", expense.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /expenses : get all the expenses.
+     * GET /expenses : get all the expenses.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of expenses in body
+     * @return the ResponseEntity with status 200 (OK) and the list of expenses
+     * in body
      */
     @RequestMapping(value = "/expenses",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public List<Expense> getAllExpenses() {
         log.debug("REST request to get all Expenses");
@@ -120,35 +127,45 @@ public class ExpenseResource {
         }
     }
 
+    @RequestMapping(value = "/expenses/total",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<UserExpenseStatisticDTO> getAllUserExpenseStatistics() {
+        log.debug("REST request to get total sumarised expenses");
+        return statitsticsRepository.getAllUserExpenseStatistics();
+    }
+
     /**
-     * GET  /expenses/:id : get the "id" expense.
+     * GET /expenses/:id : get the "id" expense.
      *
      * @param id the id of the expense to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the expense, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * expense, or with status 404 (Not Found)
      */
     @RequestMapping(value = "/expenses/{id}",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Expense> getExpense(@PathVariable Long id) {
         log.debug("REST request to get Expense : {}", id);
         Expense expense = expenseRepository.findOne(id);
         return Optional.ofNullable(expense)
-            .map(result -> new ResponseEntity<>(
-                result,
-                HttpStatus.OK))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .map(result -> new ResponseEntity<>(
+                        result,
+                        HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     /**
-     * DELETE  /expenses/:id : delete the "id" expense.
+     * DELETE /expenses/:id : delete the "id" expense.
      *
      * @param id the id of the expense to delete
      * @return the ResponseEntity with status 200 (OK)
      */
     @RequestMapping(value = "/expenses/{id}",
-        method = RequestMethod.DELETE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Void> deleteExpense(@PathVariable Long id) {
         log.debug("REST request to delete Expense : {}", id);
