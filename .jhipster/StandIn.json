@@ -1,0 +1,27 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "forHoliday",
+            "otherEntityName": "holiday",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "standIn"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "substitut",
+            "otherEntityName": "user",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "standIn"
+        }
+    ],
+    "fields": [],
+    "changelogDate": "20161028100656",
+    "entityTableName": "stand_in",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

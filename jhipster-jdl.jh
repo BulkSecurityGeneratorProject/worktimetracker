@@ -1,0 +1,50 @@
+entity Project {
+	name String required
+}
+
+entity Worklog {
+    date LocalDate required,
+    hours Double required,
+	comment String,
+    approved Boolean required,
+}
+
+relationship ManyToOne {
+    Worklog{project} to Project
+}
+
+relationship ManyToOne {
+    Worklog{user} to User
+}
+
+entity Holiday {
+	startDate LocalDate required,
+    endDate LocalDate required,
+    days Double required
+}
+
+relationship ManyToOne {
+    Holiday{user} to User
+}
+
+entity StandIn {
+}
+
+relationship OneToOne {
+    StandIn{forHoliday} to Holiday
+}
+
+relationship OneToOne {
+    StandIn{substitut} to User
+}
+
+entity Expense {
+    name String required,
+    date LocalDate required,
+    value Double required,
+    receipt ImageBlob
+}
+
+relationship ManyToOne {
+    Expense{user} to User
+}

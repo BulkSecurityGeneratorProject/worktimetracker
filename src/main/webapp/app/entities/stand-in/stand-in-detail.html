@@ -1,0 +1,27 @@
+
+<div>
+    <h2><span>Stand In</span> {{vm.standIn.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>For Holiday</span></dt>
+        <dd>
+            <a ui-sref="holiday-detail({id:vm.standIn.forHoliday.id})">{{vm.standIn.forHoliday.id}}</a>
+        </dd>
+        <dt><span>Substitut</span></dt>
+        <dd>
+            {{vm.standIn.substitut.id}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="stand-in-detail.edit({id:vm.standIn.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm"> Edit</span>
+    </button>
+</div>

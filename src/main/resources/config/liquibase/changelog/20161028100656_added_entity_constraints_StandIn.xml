@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity StandIn.
+    -->
+    <changeSet id="20161028100656-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="for_holiday_id"
+                                 baseTableName="stand_in"
+                                 constraintName="fk_stand_in_for_holiday_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="holiday"/>
+
+        <addForeignKeyConstraint baseColumnNames="substitut_id"
+                                 baseTableName="stand_in"
+                                 constraintName="fk_stand_in_substitut_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+    </changeSet>
+</databaseChangeLog>

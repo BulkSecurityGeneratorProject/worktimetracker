@@ -1,0 +1,43 @@
+
+<div>
+    <h2><span>Worklog</span> {{vm.worklog.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Date</span></dt>
+        <dd>
+            <span>{{vm.worklog.date | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>Hours</span></dt>
+        <dd>
+            <span>{{vm.worklog.hours}}</span>
+        </dd>
+        <dt><span>Comment</span></dt>
+        <dd>
+            <span>{{vm.worklog.comment}}</span>
+        </dd>
+        <dt><span>Approved</span></dt>
+        <dd>
+            <span>{{vm.worklog.approved}}</span>
+        </dd>
+        <dt><span>Project</span></dt>
+        <dd>
+            <a ui-sref="project-detail({id:vm.worklog.project.id})">{{vm.worklog.project.id}}</a>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+            {{vm.worklog.user.id}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="worklog-detail.edit({id:vm.worklog.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm"> Edit</span>
+    </button>
+</div>

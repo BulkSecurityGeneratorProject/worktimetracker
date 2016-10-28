@@ -1,0 +1,35 @@
+
+<div>
+    <h2><span>Holiday</span> {{vm.holiday.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Start Date</span></dt>
+        <dd>
+            <span>{{vm.holiday.startDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>End Date</span></dt>
+        <dd>
+            <span>{{vm.holiday.endDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>Days</span></dt>
+        <dd>
+            <span>{{vm.holiday.days}}</span>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+            {{vm.holiday.user.id}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="holiday-detail.edit({id:vm.holiday.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm"> Edit</span>
+    </button>
+</div>
