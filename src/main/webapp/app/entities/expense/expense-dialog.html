@@ -60,7 +60,6 @@
         <div class="form-group" ngf-drop ngf-change="vm.setReceipt($file, vm.expense)" ngf-pattern="'image/*'">
             <label class="control-label" for="field_receipt">Receipt</label>
             <div>
-                <img data-ng-src="{{'data:' + vm.expense.receiptContentType + ';base64,' + vm.expense.receipt}}" style="max-height: 100px;" ng-if="vm.expense.receipt"/>
                 <div ng-if="vm.expense.receipt" class="help-block clearfix">
                     <span class="pull-left">{{vm.expense.receiptContentType}}, {{vm.byteSize(vm.expense.receipt)}}</span>
                     <button type="button" ng-click="vm.expense.receipt=null;vm.expense.receiptContentType=null;"
@@ -69,8 +68,8 @@
                     </button>
                 </div>
                 <button type="button" ngf-select class="btn btn-default btn-block"
-                        ngf-change="vm.setReceipt($file, vm.expense)" accept="image/*">
-                    Add image
+                        ngf-change="vm.setReceipt($file, vm.expense)" accept="application/pdf">
+                    Add scanned receipt PDF
                 </button>
             </div>
             <input type="hidden" class="form-control" name="receipt" id="field_receipt"

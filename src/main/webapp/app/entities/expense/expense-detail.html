@@ -10,7 +10,7 @@
         </dd>
         <dt><span>Date</span></dt>
         <dd>
-            <span>{{vm.expense.date | date:'mediumDate'}}</span>
+            <span>{{vm.expense.date| date:'mediumDate'}}</span>
         </dd>
         <dt><span>Value</span></dt>
         <dd>
@@ -20,9 +20,8 @@
         <dd>
             <div ng-if="vm.expense.receipt">
                 <a ng-click="vm.openFile(vm.expense.receiptContentType, vm.expense.receipt)">
-                    <img data-ng-src="{{'data:' + vm.expense.receiptContentType + ';base64,' + vm.expense.receipt}}" style="max-width: 100%;"/>
+                    {{vm.expense.receiptContentType}}, {{vm.byteSize(vm.expense.receipt)}}
                 </a>
-                {{vm.expense.receiptContentType}}, {{vm.byteSize(vm.expense.receipt)}}
             </div>
         </dd>
         <dt><span>User</span></dt>
@@ -32,7 +31,7 @@
     </dl>
 
     <button type="submit"
-            ui-sref="{{ vm.previousState }}"
+            ui-sref="{{ vm.previousState}}"
             class="btn btn-info">
         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
     </button>

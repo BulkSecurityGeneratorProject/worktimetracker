@@ -31,13 +31,12 @@
                 <tr ng-repeat="expense in vm.expenses track by expense.id">
                     <td><a ui-sref="expense-detail({id:expense.id})">{{expense.id}}</a></td>
                     <td>{{expense.name}}</td>
-                        <td>{{expense.date | date:'mediumDate'}}</td>
+                    <td>{{expense.date| date:'mediumDate'}}</td>
                     <td>{{expense.value}}</td>
                     <td>
                         <a ng-if="expense.receipt" ng-click="vm.openFile(expense.receiptContentType, expense.receipt)">
-                            <img data-ng-src="{{'data:' + expense.receiptContentType + ';base64,' + expense.receipt}}" style="max-height: 30px;"/>
+                            <span ng-if="expense.receipt">{{expense.receiptContentType}}, {{vm.byteSize(expense.receipt)}}</span>
                         </a>
-                        <span ng-if="expense.receipt">{{expense.receiptContentType}}, {{vm.byteSize(expense.receipt)}}</span>
                     </td>
                     <td>
                         {{expense.user.login}}
