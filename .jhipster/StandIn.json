@@ -13,7 +13,7 @@
             "relationshipType": "one-to-one",
             "relationshipName": "substitut",
             "otherEntityName": "user",
-            "otherEntityField": "id",
+            "otherEntityField": "login",
             "ownerSide": true,
             "otherEntityRelationshipName": "standIn"
         }

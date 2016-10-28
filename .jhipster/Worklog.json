@@ -5,13 +5,13 @@
             "relationshipType": "many-to-one",
             "relationshipName": "project",
             "otherEntityName": "project",
-            "otherEntityField": "id"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "relationshipName": "user",
             "otherEntityName": "user",
-            "otherEntityField": "id"
+            "otherEntityField": "login"
         }
     ],
     "fields": [

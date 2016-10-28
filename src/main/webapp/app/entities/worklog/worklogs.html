@@ -36,10 +36,10 @@
                     <td>{{worklog.comment}}</td>
                     <td>{{worklog.approved}}</td>
                     <td>
-                        <a ui-sref="project-detail({id:worklog.project.id})">{{worklog.project.id}}</a>
+                        <a ui-sref="project-detail({id:worklog.project.id})">{{worklog.project.name}}</a>
                     </td>
                     <td>
-                        {{worklog.user.id}}
+                        {{worklog.user.login}}
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
