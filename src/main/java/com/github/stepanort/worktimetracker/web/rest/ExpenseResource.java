@@ -5,6 +5,10 @@ import com.github.stepanort.worktimetracker.domain.Expense;
 
 import com.github.stepanort.worktimetracker.repository.ExpenseRepository;
 import com.github.stepanort.worktimetracker.web.rest.util.HeaderUtil;
+import com.github.stepanort.worktimetracker.web.rest.util.ExcelUtil;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +23,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import org.springframework.core.io.InputStreamResource;
 
 /**
  * REST controller for managing Expense.
@@ -91,6 +97,27 @@ public class ExpenseResource {
         log.debug("REST request to get all Expenses");
         List<Expense> expenses = expenseRepository.findAll();
         return expenses;
+    }
+
+    @RequestMapping(value = "/expenses/excel",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @Timed
+    public ResponseEntity<InputStreamResource> getExpensesExport() {
+        log.debug("REST request to get expenses exported to Excel file");
+        byte[] excelBytes;
+        try {
+            excelBytes = ExcelUtil.generate(expenseRepository.findAll());
+            return ResponseEntity
+                    .ok()
+                    .contentLength(excelBytes.length)
+                    .contentType(
+                            MediaType.parseMediaType("application/octet-stream"))
+                    .header("Content-Disposition", "attachment; filename=\"expenses.xlsx\"")
+                    .body(new InputStreamResource(new ByteArrayInputStream(excelBytes)));
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     /**
